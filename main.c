@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <math.h>
 
-typedef struct mesh
+typedef struct mesh     //Création du type mesh
 {
     int id;
 }mesh;
 
-typedef struct element
+typedef struct element  //Création du type élément contenant la mesh et les pointeurs de repérages
         {
                 mesh gear;
                 struct element *preced;
@@ -15,7 +15,7 @@ typedef struct element
         } element ;
 
 
-typedef struct
+typedef struct          //Création de la liste et de ces pointeurs
         {
           element *prems;
           element *dernier;
@@ -88,7 +88,7 @@ int main()
 //---------------------------------------------------------------------------//
 
 
-void Init(liste *x)
+void Init(liste *x)             //Initialisation des extremité de la liste
 {
    x->prems = NULL;
    x->dernier = NULL;
@@ -97,16 +97,16 @@ void Init(liste *x)
 
 void insertBas(liste *x, int val)
 {
-   element *nouv = malloc(sizeof(element));
+   element *nouv = malloc(sizeof(element));         //allocation espace mémoire
 
    if(!nouv)
    {
         exit(EXIT_FAILURE);
    }
 
-   nouv->gear.id = val;
-   nouv->preced = x->dernier;
-   nouv->suiv = NULL;
+   nouv->gear.id = val;                                //insertion de la valeur d'identification de la mesh
+   nouv->preced = x->dernier;                          //Le pointeur vers l'élement précédent prend l'élément qui était le dernier
+   nouv->suiv = NULL;                                  //Etant le dernier de la liste, il pointe vers NULL
 
    if(x->dernier)
    {
@@ -117,7 +117,7 @@ void insertBas(liste *x, int val)
         x->prems = nouv;
     }
 
-    x->dernier = nouv;
+    x->dernier = nouv;                                  //Le nouvelle élément est pointer comme dernier de la liste
 
 }
 
@@ -130,9 +130,9 @@ void insertHaut(liste *x, int val)
         exit(EXIT_FAILURE);
     }
 
-   nouv->gear.id = val;
-   nouv->suiv = x->prems;
-   nouv->preced = NULL;
+   nouv->gear.id = val;                                 //insertion de la valeur d'identification de la mesh
+   nouv->suiv = x->prems;                               //Le pointeur vers l'élement suivant prend l'élément qui était le premier
+   nouv->preced = NULL;                                 //Etant le premier de la liste, il pointe vers NULL
 
    if(x->prems)
    {
@@ -143,7 +143,7 @@ void insertHaut(liste *x, int val)
        x->dernier = nouv;
    }
 
-   x->prems= nouv;
+   x->prems= nouv;                                      //Le nouvelle élément est pointer comme premier de la liste
 }
 
 
@@ -152,7 +152,7 @@ void affichage(liste x)
    element *Xelem = x.prems;
    while(Xelem)
    {
-     printf("%d\n",Xelem->gear.id);
+     printf("%d\n",Xelem->gear.id);                     //Affichage de l'identifiant de la mesh
      Xelem = Xelem->suiv;
    }
 }
@@ -166,10 +166,10 @@ void supressionHaut(liste *x)
 
     if (x->prems != NULL)
     {
-        element *aSupprimer = x->prems;   //pointe le premier de la pile qui est à supprimer
+        element *aSupprimer = x->prems;   //pointe le premier element, désigner comme à supprimer
         x->prems = x->prems->suiv;
         x->prems->preced = NULL;          //le nombre qui le suivait deviens le premier
-        free(aSupprimer);                   //la fonction (free) directement intégrer au C supprime la valeure
+        free(aSupprimer);                 //la fonction (free) directement intégrer au C supprime la valeure
     }
 }
 
@@ -182,9 +182,9 @@ void supressionBas(liste *x)
 
     if (x->dernier != NULL)
     {
-        element *aSupprimer = x->dernier;
+        element *aSupprimer = x->dernier;   //pointe le dernier element, désigner comme à supprimer
         x->dernier = x->dernier->preced;
-        x->dernier->suiv = NULL;
+        x->dernier->suiv = NULL;            //le nombre qui le precède deviens le dernier
         free(aSupprimer);
     }
 }
